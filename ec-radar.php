@@ -19,9 +19,10 @@
 //   Version 2.01 - 30-Nov-2015 - changes for revised EC website (timezone extract+use meteo.gc.ca for french)
 //   Version 2.02 - 22-Feb-2017 - use cURL fetch, HTTPS to EC website, improved error handling
 //   Version 2.03 - 28-Jul-2018 - update for EC website change (get latest image issue)
-//   Version 2.04 - 17-Apr-2019 - added list of operating radar sites and new CASxx sites for display  
+//   Version 2.04 - 17-Apr-2019 - added list of operating radar sites and new CASxx sites for display
+//   Version 2.05 - 27-Aug-2019 - updated radar site allowed list  
 //
-  $Version = "V2.04 - 17-Apr-2019";
+  $Version = "V2.05 - 27-Aug-2019";
 // error_reporting(E_ALL);
 //
 // Settings:
@@ -98,7 +99,7 @@ $allowedSites = array(
   'XSS' => 'Silver Star Mountain (near Vernon)',
   'XSI' => 'Victoria',
   'WRN' => 'Prairies',
-  'XBE' => 'Bethune (near Regina)',
+  'CASBE' => 'Bethune (near Regina)',
   'WHK' => 'Carvel (near Edmonton)',
   'CASFW' => 'Foxwarren (near Brandon)',
   'WHN' => 'Jimmy Lake (near Cold Lake)',
@@ -110,7 +111,7 @@ $allowedSites = array(
   'ONT' => 'Ontario',
   'WBI' => 'Britt (near Sudbury)',
   'XDR' => 'Dryden',
-  'WSO' => 'Exeter (near London)',
+  'CASET' => 'Exeter (near London)',
   'XFT' => 'Franktown (near Ottawa)',
   'WKR' => 'King City (near Toronto)',
   'WGJ' => 'Montreal River (near Sault Ste Marie)',
