@@ -1,4 +1,4 @@
-# Environment Canada radar script (for www.weatheroffice.ec.gc.ca)
+# Environment Canada radar script (for https://weather.gc.ca/)
 
 This script will read the HTML from the Environment Canada radar page (cached) and download/cache the radar images as .png files on your website. Since the EC uses radar graphic names with embedded timestamps, this script offers one of the few ways that weather enthusiasts can include EC radar images in their own websites.
 
