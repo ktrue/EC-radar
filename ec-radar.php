@@ -20,9 +20,10 @@
 //   Version 2.02 - 22-Feb-2017 - use cURL fetch, HTTPS to EC website, improved error handling
 //   Version 2.03 - 28-Jul-2018 - update for EC website change (get latest image issue)
 //   Version 2.04 - 17-Apr-2019 - added list of operating radar sites and new CASxx sites for display
-//   Version 2.05 - 27-Aug-2019 - updated radar site allowed list  
+//   Version 2.05 - 27-Aug-2019 - updated radar site allowed list 
+//   Version 2.06 - 27-Jan-2021 - updated radar site allowed list + minor URT-8 discovery fix 
 //
-  $Version = "V2.05 - 27-Aug-2019";
+  $Version = "V2.06 - 27-Jan-2021";
 // error_reporting(E_ALL);
 //
 // Settings:
@@ -91,6 +92,10 @@ if (isset($_REQUEST['sce']) && strtolower($_REQUEST['sce']) == 'view' ) {
    readfile($filenameReal);
    exit;
 }
+
+// Current EC radar list as of Wed, 27 Jan 2021 13:30:52 -0800
+// based on radars available at https://weather.gc.ca/radar/index_e.html
+//
 $allowedSites = array( 
   'NAT' => 'National Map',
   'PAC' => 'Pacific',
@@ -104,34 +109,35 @@ $allowedSites = array(
   'CASFW' => 'Foxwarren (near Brandon)',
   'WHN' => 'Jimmy Lake (near Cold Lake)',
   'CASRA' => 'Radisson (near Saskatoon)',
-  'XBU' => 'Schuler (near Medicine Hat)',
+  'CASSU' => 'Schuler (near Medicine Hat)',
   'CASSR' => 'Spirit River (near Grande Prairie)',
-  'XSM' => 'Strathmore (near Calgary)',
-  'XWL' => 'Woodlands (near Winnipeg)',
+  'CASSM' => 'Strathmore (near Calgary)',
+  'CASWL' => 'Woodlands (near Winnipeg)',
   'ONT' => 'Ontario',
   'WBI' => 'Britt (near Sudbury)',
-  'XDR' => 'Dryden',
+  'CASDR' => 'Dryden',
   'CASET' => 'Exeter (near London)',
   'XFT' => 'Franktown (near Ottawa)',
   'WKR' => 'King City (near Toronto)',
-  'WGJ' => 'Montreal River (near Sault Ste Marie)',
+  'CASMR' => 'Montreal River (near Sault Ste Marie)',
   'CASRF' => 'Smooth Rock Falls (near Timmins)',
   'XNI' => 'Superior West (near Thunder Bay)',
   'QUE' => 'Quebec',
   'WMB' => 'Lac Castor (near Saguenay)',
-  'XLA' => 'Landrienne (near Rouyn-Noranda)',
+  'CASLA' => 'Landrienne (near Rouyn-Noranda)',
   'CASBV' => 'Blainville (near Montr&#233;al)',
-  'XAM' => 'Val d\'Ir&#232;ne (near Mont Joli)',
-  'WVY' => 'Villeroy (near Trois-Rivi&#232;res)',
+  'CASVD' => 'Val d\'Ir&#232;ne (near Mont Joli)',
+  'CASSF' => 'Villeroy (near Trois-Rivi&#232;res)',
   'ERN' => 'Atlantic',
-  'XNC' => 'Chipman (near Fredericton)',
+  'CASCM' => 'Chipman (near Fredericton)',
   'XGO' => 'Halifax',
-  'WTP' => 'Holyrood (near St. John\'s)',
+  'CASHR' => 'Holyrood (near St. John\'s)',
   'XME' => 'Marble Mountain',
-  'XMB' => 'Marion Bridge (near Sydney)',
+  'CASMB' => 'Marion Bridge (near Sydney)',
 ); // end of list of allowed sites
 
-error_reporting(E_ALL);  // uncomment to turn on full error reporting
+// error_reporting(E_ALL & ~E_NOTICE);  // uncomment to turn on full error reporting
+
 $hasUrlFopenSet = ini_get('allow_url_fopen');
 if(!$hasUrlFopenSet) {
 	print "<h2>Warning: PHP does not have 'allow_url_fopen = on;' --<br/>image fetch by ec-radar.php is not possible.</h2>\n";
@@ -331,7 +337,7 @@ if (! $forceRefresh) {
 	  print $Status;
 	  return;
   }
-  preg_match('|charset="{0,1}([^"]+)"{0,1}|i',$site,$matches);
+  preg_match('|charset="{0,1}([^"\n]+)"{0,1}\n|i',$site,$matches);
   
   if (isset($matches[1])) {
     $charsetInput = strtoupper($matches[1]);
